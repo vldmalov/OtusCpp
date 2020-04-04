@@ -11,6 +11,7 @@ endif()
 # set the project name and version
 project(helloworld VERSION ${BUILD_VERSION})
 
+# find_package(Boost REQUIRED) 
 find_package(Boost COMPONENTS unit_test_framework REQUIRED)
 
 message(STATUS "---------------------")
