@@ -1,11 +1,5 @@
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 
-message(STATUS "---------------------")
-message(STATUS "CMAKE_BINARY_DIR:       ${CMAKE_BINARY_DIR}")
-message(STATUS "PROJECT_BINARY_DIR:     ${CMAKE_CURRENT_LIST_DIR}")
-message(STATUS "CMAKE_CURRENT_LIST_DIR: ${CMAKE_CURRENT_LIST_DIR}")
-message(STATUS "---------------------")
-
 set(BUILD_VERSION 0.9.9)
 if($ENV{TRAVIS_BUILD_NUMBER})
 	message(STATUS "Travis build number = " $ENV{TRAVIS_BUILD_NUMBER})
@@ -16,11 +10,19 @@ endif()
 
 project(helloworld VERSION ${BUILD_VERSION})
 
+message(STATUS "---------------------")
+message(STATUS "PROJECT_SOURCE_DIR:     ${PROJECT_SOURCE_DIR}")
+message(STATUS "PROJECT_BINARY_DIR:     ${PROJECT_BINARY_DIR}")
+message(STATUS "CMAKE_BINARY_DIR:       ${CMAKE_BINARY_DIR}")
+message(STATUS "CMAKE_CURRENT_LIST_DIR: ${CMAKE_CURRENT_LIST_DIR}")
+message(STATUS "---------------------")
+
 configure_file(version.h.in version.h)
 
 add_subdirectory(libs)
 add_subdirectory(src)
 add_subdirectory(tests)
+add_subdirectory(gtests)
 
 install(TARGETS helloworld_cli RUNTIME DESTINATION bin)
 
@@ -35,4 +37,12 @@ include(CPack)
 
 enable_testing()
 
-add_test(test_version tests/test_version)
+add_test(
+	NAME test_version
+	COMMAND tests/test_version
+	)
+
+add_test(
+	NAME gtest_version
+	COMMAND gtests/gtest_version
+	)
