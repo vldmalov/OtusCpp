@@ -11,6 +11,8 @@ target_link_libraries(helloworld_cli PRIVATE
     mainLib
 )
 
+install(TARGETS helloworld_cli RUNTIME DESTINATION bin)
+
 if (MSVC)
     target_compile_options(helloworld_cli PRIVATE
         /W4
