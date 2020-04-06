@@ -1,14 +1,15 @@
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 
-set(BUILD_VERSION 0.9.9)
+set(BUILD_VERSION 1)
 if($ENV{TRAVIS_BUILD_NUMBER})
 	message(STATUS "Travis build number = " $ENV{TRAVIS_BUILD_NUMBER})
-	set(BUILD_VERSION 0.0.$ENV{TRAVIS_BUILD_NUMBER})
+	set(BUILD_VERSION $ENV{TRAVIS_BUILD_NUMBER})
 else()
 	message(WARNING "TRAVIS_BUILD_NUMBER env variable doesn't exist")
 endif()
 
-project(helloworld VERSION ${BUILD_VERSION})
+project(helloworld VERSION 0.0.${BUILD_VERSION})
+unset(BUILD_VERSION)
 
 message(STATUS "---------------------")
 message(STATUS "PROJECT_SOURCE_DIR:     ${PROJECT_SOURCE_DIR}")
