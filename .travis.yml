@@ -1,8 +1,9 @@
 language: cpp
 env:
-- PROJECT_NAME=helloworld
-- PACKAGE_NAME=$PROJECT_NAME-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb
-- DEPLOY_PATH=https://api.bintray.com/content/vldmalov/OtusCpp/OtusCppPkg_01/$TRAVIS_BUILD_NUMBER/$PACKAGE_NAME
+  global:
+  - PROJECT_NAME=helloworld
+  - PACKAGE_NAME=$PROJECT_NAME-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb
+  - DEPLOY_PATH=https://api.bintray.com/content/vldmalov/OtusCpp/OtusCppPkg_01/$TRAVIS_BUILD_NUMBER/$PACKAGE_NAME
 before_script:
 - sudo apt-get install libboost-test-dev -y
 - echo "deb http://archive.ubuntu.com/ubuntu xenial main universe" | sudo tee -a /etc/apt/sources.list
