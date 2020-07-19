@@ -1,9 +1,12 @@
 language: cpp
 env:
   global:
-  - PROJECT_NAME=helloworld
-  - PACKAGE_NAME=$PROJECT_NAME-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb
-  - DEPLOY_PATH=https://api.bintray.com/content/vldmalov/OtusCpp/OtusCppPkg_01/$TRAVIS_BUILD_NUMBER/$PACKAGE_NAME
+  - PROJECT_NAME=Homework01
+  - BINTRAY_DEPLOY_USER_NAME=vldmalov
+  - BINTRAY_DEPLOY_PROJECT_NAME=OtusCpp
+  - BINTRAY_DEPLOY_PACKAGE_NAME=$PROJECT_NAME
+  - DEB_PACKAGE_NAME=$PROJECT_NAME-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb
+  - BINTRAY_DEPLOY_PATH=https://api.bintray.com/content/$BINTRAY_DEPLOY_USER_NAME/$BINTRAY_DEPLOY_PROJECT_NAME/$BINTRAY_DEPLOY_PACKAGE_NAME/$TRAVIS_BUILD_NUMBER/$DEB_PACKAGE_NAME
 before_script:
 - sudo apt-get install libboost-test-dev -y
 - echo "deb http://archive.ubuntu.com/ubuntu xenial main universe" | sudo tee -a /etc/apt/sources.list
@@ -19,4 +22,6 @@ deploy:
   provider: script
   skip_cleanup: true
   script:
-  - curl -T $PACKAGE_NAME -uvldmalov:$BINTRAY_API_KEY "$DEPLOY_PATH;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
+  - curl -T $DEB_PACKAGE_NAME -uvldmalov:$BINTRAY_API_KEY "$BINTRAY_DEPLOY_PATH;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
+  on:
+    branches: lesson_1
