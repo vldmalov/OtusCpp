@@ -1,4 +1,8 @@
 language: cpp
+env:
+- PROJECT_NAME=helloworld
+- PACKAGE_NAME=$PROJECT_NAME-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb
+- DEPLOY_PATH=https://api.bintray.com/content/vldmalov/OtusCpp/OtusCppPkg_01/$TRAVIS_BUILD_NUMBER/$PACKAGE_NAME
 before_script:
 - sudo apt-get install libboost-test-dev -y
 - echo "deb http://archive.ubuntu.com/ubuntu xenial main universe" | sudo tee -a /etc/apt/sources.list
@@ -14,4 +18,4 @@ deploy:
   provider: script
   skip_cleanup: true
   script:
-  - curl -T helloworld-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb -uvldmalov:$BINTRAY_API_KEY "https://api.bintray.com/content/vldmalov/OtusCpp/OtusCppPkg_01/$TRAVIS_BUILD_NUMBER/helloworld-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
+  - curl -T $PACKAGE_NAME -uvldmalov:$BINTRAY_API_KEY "$DEPLOY_PATH;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
