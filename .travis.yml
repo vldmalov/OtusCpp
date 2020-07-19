@@ -24,4 +24,4 @@ deploy:
   script:
   - curl -T $DEB_PACKAGE_NAME -uvldmalov:$BINTRAY_API_KEY "$BINTRAY_DEPLOY_PATH;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
   on:
-    branches: lesson_1
+    all_branches: true
