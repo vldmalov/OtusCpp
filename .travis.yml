@@ -1,4 +1,6 @@
 language: cpp
+compiler: gcc
+
 env:
   global:
   - PROJECT_NAME=Homework01
@@ -7,11 +9,19 @@ env:
   - BINTRAY_DEPLOY_PACKAGE_NAME=$PROJECT_NAME
   - DEB_PACKAGE_NAME=$PROJECT_NAME-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb
   - BINTRAY_DEPLOY_PATH=https://api.bintray.com/content/$BINTRAY_DEPLOY_USER_NAME/$BINTRAY_DEPLOY_PROJECT_NAME/$BINTRAY_DEPLOY_PACKAGE_NAME/$TRAVIS_BUILD_NUMBER/$DEB_PACKAGE_NAME
+
+addons:
+  apt:
+    packages:
+      - g++-7
+
 before_script:
 - sudo apt-get install libboost-test-dev -y
 - echo "deb http://archive.ubuntu.com/ubuntu xenial main universe" | sudo tee -a /etc/apt/sources.list
 - sudo apt-get update -qq
 script:
+- export CC=gcc-7
+- export CXX=g++-7
 - mkdir build
 - cd build
 - cmake .. # cmake .. -G Xcode
