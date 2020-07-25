@@ -14,7 +14,7 @@ before_script:
 script:
 - mkdir build
 - cd build
-- cmake ..
+- cmake .. # cmake .. -G Xcode
 - cmake --build .
 - cmake --build . --target test
 - cmake --build . --target package

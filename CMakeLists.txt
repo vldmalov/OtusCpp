@@ -20,7 +20,8 @@ message(STATUS "---------------------")
 
 configure_file(version.h.in version.h)
 
-add_subdirectory(libs)
+add_subdirectory(libs/versionLib)
+add_subdirectory(libs/ipAddressesLib)
 add_subdirectory(src)
 add_subdirectory(tests)
 add_subdirectory(gtests)

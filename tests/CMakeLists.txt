@@ -3,7 +3,7 @@ add_executable(test_version test_version.cpp)
 message(STATUS "Running tests CMakeLists..")
 
 set_target_properties(test_version PROPERTIES
-    CXX_STANDARD 14
+    CXX_STANDARD 17
     CXX_STANDARD_REQUIRED ON
 )
 
@@ -24,7 +24,7 @@ set_target_properties(test_version PROPERTIES
 
 target_link_libraries(test_version
     ${Boost_LIBRARIES}
-    mainLib
+    versionLib
 )
 
 if (MSVC)

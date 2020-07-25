@@ -3,7 +3,7 @@ add_executable(gtest_version versionTest.cpp)
 message(STATUS "Running gtests CMakeLists..")
 
 set_target_properties(test_version PROPERTIES
-    CXX_STANDARD 14
+    CXX_STANDARD 17
     CXX_STANDARD_REQUIRED ON
 )
 
@@ -33,7 +33,7 @@ fetch_googletest(
 
 
 target_link_libraries(gtest_version
-    mainLib
+    versionLib
     gtest_main
     )
 
