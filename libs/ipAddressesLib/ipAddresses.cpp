@@ -4,6 +4,7 @@
 #include <iostream>
 #include <cassert>
 #include <optional>
+#include <algorithm>
 
 namespace Utils
 {
