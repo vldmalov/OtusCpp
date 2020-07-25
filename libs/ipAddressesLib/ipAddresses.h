@@ -2,6 +2,7 @@
 
 #include <string>
 #include <array>
+#include <vector>
 #include <optional>
 
 namespace Utils
