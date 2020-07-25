@@ -1,0 +1,64 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "cmake",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "-G",
+                "Visual Studio 15 2017 Win64",
+                "-DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake",
+                "-DCMAKE_BUILD_TYPE=Debug",
+                ".."
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/CMakeFiles"
+            },
+            "group": "build",
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": "$go"
+        },
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build",
+                ".",
+                "--config",
+                "Debug",
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/CMakeFiles"
+            },
+            "group": "build",
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": "$go"
+        },
+        {
+            "label": "run_helloWorld",
+            "type": "shell",
+            "command": "CMakeFiles/Debug/helloworld_cli.exe",
+            "group": "test",
+            "presentation": {
+                "reveal": "always"
+            }
+        },
+        {
+            "label": "run_test",
+            "type": "shell",
+            "command": "CMakeFiles/Debug/test_version.exe",
+            "group": "test",
+            "presentation": {
+                "reveal": "always"
+            }
+        }
+    ]
+}
