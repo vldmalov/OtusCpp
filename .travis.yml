@@ -3,7 +3,7 @@ compiler: gcc
 
 env:
   global:
-  - PROJECT_NAME=Homework01
+  - PROJECT_NAME=ipFilter
   - BINTRAY_DEPLOY_USER_NAME=vldmalov
   - BINTRAY_DEPLOY_PROJECT_NAME=OtusCpp
   - BINTRAY_DEPLOY_PACKAGE_NAME=$PROJECT_NAME

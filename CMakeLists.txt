@@ -8,7 +8,7 @@ else()
 	message(WARNING "TRAVIS_BUILD_NUMBER env variable doesn't exist")
 endif()
 
-project(Homework01 VERSION 0.0.${BUILD_VERSION})
+project(ipFilter VERSION 0.0.${BUILD_VERSION})
 unset(BUILD_VERSION)
 
 message(STATUS "---------------------")
