@@ -8,7 +8,7 @@ else()
 	message(WARNING "TRAVIS_BUILD_NUMBER env variable doesn't exist")
 endif()
 
-project(ipFilter VERSION 0.0.${BUILD_VERSION})
+project(02_allocator VERSION 0.0.${BUILD_VERSION})
 unset(BUILD_VERSION)
 
 message(STATUS "---------------------")
@@ -18,13 +18,13 @@ message(STATUS "CMAKE_BINARY_DIR:       ${CMAKE_BINARY_DIR}")
 message(STATUS "CMAKE_CURRENT_LIST_DIR: ${CMAKE_CURRENT_LIST_DIR}")
 message(STATUS "---------------------")
 
-configure_file(version.h.in version.h)
-
-add_subdirectory(libs/versionLib)
-add_subdirectory(libs/ipAddressesLib)
 add_subdirectory(src)
-add_subdirectory(tests)
-add_subdirectory(gtests)
+
+target_sources(02_allocator
+    PRIVATE main.cpp
+    PRIVATE customAllocator.h
+    PRIVATE coloredCout.h
+)
 
 set(CPACK_GENERATOR DEB)
 
@@ -34,15 +34,3 @@ set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
 set(CPACK_PACKAGE_CONTACT vldmalov@gmail.com)
 
 include(CPack)
-
-enable_testing()
-
-add_test(
-	NAME test_version
-	COMMAND tests/test_version
-	)
-
-add_test(
-	NAME gtest_version
-	COMMAND gtests/gtest_version
-	)

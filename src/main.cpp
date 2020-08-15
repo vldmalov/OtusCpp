@@ -1,104 +1,99 @@
-#include "versionLib.h"
-#include "ipAddresses.h"
+#include "customAllocator.h"
 
 #include <iostream>
-#include <fstream>
 #include <vector>
-#include <iterator>
-#include <algorithm>
+#include <map>
+#include "coloredCout.h"
+
+struct IntWrapper
+{
+    IntWrapper() : _data{ 0 }
+    {
+        std::cout << "Default ctor" << std::endl;
+    }
+    
+    explicit IntWrapper(int val) : _data{ val }
+    {
+        std::cout << "Ctor. Value : " << _data << std::endl;
+    }
+
+    IntWrapper(const IntWrapper& other)
+    {
+        std::cout << "Copy ctor. Value : " << other._data << std::endl;
+        _data = other._data;
+    }
+        
+    IntWrapper(const IntWrapper&& other) noexcept
+    {
+        std::cout << "Move ctor. Value : " << other._data << std::endl;
+        _data = other._data;
+    }
+        
+    IntWrapper& operator= (const IntWrapper& other)
+    {
+        std::cout << "Assign operator. Value : " << other._data << std::endl;
+        _data = other._data;
+        
+        return *this;
+    }
+        
+    IntWrapper& operator= (const IntWrapper&& other) noexcept
+    {
+        std::cout << "Move assign operator. Value : " << other._data << std::endl;
+        _data = other._data;
+        
+        return *this;
+    }
+    
+    ~IntWrapper()
+    {
+        std::cout << "Dtor. Value : " << _data << std::endl;
+    }
+        
+    friend bool operator< (const IntWrapper& lhs, const IntWrapper& rhs);
+    friend std::ostream& operator<< (std::ostream& os, const IntWrapper& wrapper);
+        
+private:
+    int _data{ 0 };
+};
+
+bool operator< (const IntWrapper& lhs, const IntWrapper& rhs)
+{
+    return lhs._data < rhs._data;
+}
+
+std::ostream& operator<< (std::ostream& os, const IntWrapper& wrapper)
+{
+    os << wrapper._data;
+    return os;
+}
+
+static const int ITEMS_COUNT = 10;
 
 int main()
 {
-    //std::cout << "Application version: " << versionLib::getFullVersion() << std::endl;
-    //std::cout << "Hello world!" << std::endl;
+    auto myMap = std::map<IntWrapper, IntWrapper, std::less<IntWrapper>,
+        CustomAllocator<std::pair<const IntWrapper, IntWrapper>>>{};
     
-//    std::ifstream in("ip_filter.tsv");
-//    std::streambuf *cinbuf = std::cin.rdbuf(); //save old buf
-//    std::cin.rdbuf(in.rdbuf()); //redirect std::cin to file
-    
-    try
+    int fact{ 1 };
+    for(int idx = 0; idx < ITEMS_COUNT; ++idx)
     {
-        std::vector<Utils::ipAddress> ipAddressPool = Utils::ReadIpAdresses();
-
-        // 222.173.235.246
-        // 222.130.177.64
-        // ...
-        // 1.29.168.152
-        // 1.1.234.8
-        std::sort(ipAddressPool.begin(), ipAddressPool.end(), std::greater<Utils::ipAddress>());
-        std::copy(ipAddressPool.begin(), ipAddressPool.end(), std::ostream_iterator<Utils::ipAddress>(std::cout, "\n"));
+        if(idx > 1) fact *= idx;
         
-        // TODO filter by first byte and output
-        // 1.231.69.33
-        // 1.87.203.225
-        // 1.70.44.170
-        // 1.29.168.152
-        // 1.1.234.8
-        {
-            std::vector<Utils::ipAddress> filtredAddresses = Utils::FilterIpAddresses(ipAddressPool, Utils::ipAddressMask{1u, std::nullopt, std::nullopt, std::nullopt});
-            std::copy(filtredAddresses.begin(), filtredAddresses.end(), std::ostream_iterator<Utils::ipAddress>(std::cout, "\n"));
-        }
-
-        // TODO filter by first and second bytes and output
-        // ip = filter(46, 70)
-
-        // 46.70.225.39
-        // 46.70.147.26
-        // 46.70.113.73
-        // 46.70.29.76
-        {
-            std::vector<Utils::ipAddress> filtredAddresses = Utils::FilterIpAddresses(ipAddressPool, Utils::ipAddressMask{46u, 70u, std::nullopt, std::nullopt});
-            std::copy(filtredAddresses.begin(), filtredAddresses.end(), std::ostream_iterator<Utils::ipAddress>(std::cout, "\n"));
-        }
-
-        // TODO filter by any byte and output
-        // ip = filter_any(46)
-
-        // 186.204.34.46
-        // 186.46.222.194
-        // 185.46.87.231
-        // 185.46.86.132
-        // 185.46.86.131
-        // 185.46.86.131
-        // 185.46.86.22
-        // 185.46.85.204
-        // 185.46.85.78
-        // 68.46.218.208
-        // 46.251.197.23
-        // 46.223.254.56
-        // 46.223.254.56
-        // 46.182.19.219
-        // 46.161.63.66
-        // 46.161.61.51
-        // 46.161.60.92
-        // 46.161.60.35
-        // 46.161.58.202
-        // 46.161.56.241
-        // 46.161.56.203
-        // 46.161.56.174
-        // 46.161.56.106
-        // 46.161.56.106
-        // 46.101.163.119
-        // 46.101.127.145
-        // 46.70.225.39
-        // 46.70.147.26
-        // 46.70.113.73
-        // 46.70.29.76
-        // 46.55.46.98
-        // 46.49.43.85
-        // 39.46.86.85
-        // 5.189.203.46
-        {
-            std::vector<Utils::ipAddress> filtredAddresses = Utils::FilterIpAddressesAny(ipAddressPool, 46u);
-            std::copy(filtredAddresses.begin(), filtredAddresses.end(), std::ostream_iterator<Utils::ipAddress>(std::cout, "\n"));
-        }
-    }
-    catch(const std::exception& e)
-    {
-        std::cerr << e.what() << std::endl;
+        std::cout << BOLDBLUE << "\n===== myMap size : " << myMap.size() << RESET << std::endl;
+        myMap.emplace(idx, fact);
+        //myMap.insert_or_assign(IntWrapper{idx}, IntWrapper{fact});
+        //myMap[IntWrapper{idx}] = IntWrapper(fact);
     }
     
-    //std::cin.rdbuf(cinbuf); // Reset to standard input again
+    std::cout << BOLDBLUE << "===== After map has been filled out" << RESET << std::endl;
+        
+    for(const auto& [key, val] : myMap)
+    {
+        std::cout << key << " " << val << std::endl;
+    }
+   
+    std::cout << BOLDBLUE << "===== Before programm end" << RESET << std::endl;
 
     return 0;
 }

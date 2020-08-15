@@ -3,7 +3,7 @@ compiler: gcc
 
 env:
   global:
-  - PROJECT_NAME=ipFilter
+  - PROJECT_NAME=02_allocator
   - BINTRAY_DEPLOY_USER_NAME=vldmalov
   - BINTRAY_DEPLOY_PROJECT_NAME=OtusCpp
   - BINTRAY_DEPLOY_PACKAGE_NAME=$PROJECT_NAME
@@ -28,7 +28,7 @@ script:
 - cd build
 - cmake .. # cmake .. -G Xcode
 - cmake --build .
-- cmake --build . --target test
+#- cmake --build . --target test
 - cmake --build . --target package
 deploy:
   provider: script
