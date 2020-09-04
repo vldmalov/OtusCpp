@@ -69,8 +69,8 @@ void CustomContainerTest()
     auto myContainer = CustomContainer<IntWrapper, std::allocator<IntWrapper>>{};
     for(int idx = 0; idx < ITEMS_COUNT; ++idx)
     {
-        myContainer.pushBack(IntWrapper(idx));
-        std::cout << BLUE << "Size: " << myContainer.getSize() << " Capacity: " << myContainer.getCapacity() << RESET_COLOR << std::endl;
+        myContainer.push_back(IntWrapper(idx));
+        std::cout << BLUE << "Size: " << myContainer.size() << " Capacity: " << myContainer.capacity() << RESET_COLOR << std::endl;
     }
     
     std::cout << BLUE << "myContainer has been filled out" << RESET_COLOR << std::endl;
@@ -88,8 +88,8 @@ void CustomContainerWithCustomAllocTest()
     auto myContainer = CustomContainer<IntWrapper, CustomAllocator<IntWrapper>>{};
     for(int idx = 0; idx < ITEMS_COUNT; ++idx)
     {
-        myContainer.pushBack(IntWrapper(idx));
-        std::cout << BLUE << "Size: " << myContainer.getSize() << " Capacity: " << myContainer.getCapacity() << RESET_COLOR << std::endl;
+        myContainer.push_back(IntWrapper(idx));
+        std::cout << BLUE << "Size: " << myContainer.size() << " Capacity: " << myContainer.capacity() << RESET_COLOR << std::endl;
     }
 
     std::cout << "myContainer has been filled out" << RESET_COLOR << std::endl;
@@ -97,5 +97,17 @@ void CustomContainerWithCustomAllocTest()
     {
         std::cout << BLUE << item << " " << RESET_COLOR;
     }
+    std::cout << std::endl;
+    
+    myContainer.pop_back();
+    myContainer.pop_back();
+    myContainer.pop_back();
+    myContainer .push_back(IntWrapper(20));
+    std::cout << "myContainer has been filled out" << RESET_COLOR << std::endl;
+    for(auto& item : myContainer)
+    {
+        std::cout << BLUE << item << " " << RESET_COLOR;
+    }
+    
     std::cout << std::endl;
 }

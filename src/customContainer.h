@@ -24,14 +24,20 @@ public:
     ~CustomContainer()
     {
         std::cout << __PRETTY_FUNCTION__ << std::endl;
+        clear();
+        _allocator.deallocate(_data, _capacity);
+    }
+    
+    void clear()
+    {
         for(size_t idx = 0; idx < _size; ++idx)
         {
             _allocator.destroy(_data + idx);
         }
-        _allocator.deallocate(_data, _capacity);
+        _size = 0;
     }
     
-    void pushBack(const T& value)
+    void push_back(const T& value)
     {
         if(_size == _capacity)
         {
@@ -50,12 +56,27 @@ public:
         ++_size;
     }
     
-    size_t getSize() const
+    void pop_back()
+    {
+        if(empty())
+        {
+            return;
+        }
+        _allocator.destroy(end() - 1);
+        --_size;
+    }
+    
+    size_t size() const
     {
         return _size;
     }
     
-    size_t getCapacity() const
+    bool empty() const
+    {
+        return !_size;
+    }
+    
+    size_t capacity() const
     {
         return _capacity;
     }
@@ -71,8 +92,10 @@ public:
     }
 
 private:
-    ALLOC_T _allocator;
     size_t  _size{ 0 };
     size_t  _capacity{ 0 };
     pointer _data;
+    
+    ALLOC_T _allocator;
+
 };
