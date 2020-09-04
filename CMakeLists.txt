@@ -23,6 +23,7 @@ add_subdirectory(src)
 target_sources(02_allocator
     PRIVATE main.cpp
     PRIVATE customAllocator.h
+    PRIVATE customContainer.h
     PRIVATE intWrapper.h
     PRIVATE coloredCout.h
 )

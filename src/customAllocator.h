@@ -3,7 +3,7 @@
 #include <iostream>
 #include "coloredCout.h"
 
-template<typename T, int COUNT>
+template<typename T>
 struct CustomAllocator : public std::allocator<T>
 {
     using value_type = T;
@@ -18,63 +18,46 @@ struct CustomAllocator : public std::allocator<T>
     ~CustomAllocator() = default;
     
     template<typename U>
-    CustomAllocator(const CustomAllocator<U, COUNT>&)
+    CustomAllocator(const CustomAllocator<U>&)
     {
-        std::cout << BOLDYELLOW << __PRETTY_FUNCTION__ << RESET << std::endl;
+        std::cout << BOLDYELLOW << __PRETTY_FUNCTION__ << RESET_COLOR << std::endl;
     }
     
     template<typename U>
     struct rebind {
-        using other = CustomAllocator<U, COUNT>;
+        using other = CustomAllocator<U>;
     };
 
     pointer allocate(std::size_t n)
     {
-        if(_allocatedMem) return _allocatedMem + _constructedCount;
+        std::cout << BOLDGREEN << __PRETTY_FUNCTION__ << "[n = " << n << "]" << RESET_COLOR << std::endl;
         
-        const size_t bytesCount{ COUNT * sizeof(T) };
-        void* p = ::operator new(bytesCount);
+        void* p = ::operator new(n * sizeof(T));
         if(!p)
         {
             throw std::bad_alloc();
         }
-        
-        std::cout << BOLDGREEN << __PRETTY_FUNCTION__ << "[n = " << n << "] [addr = " << p << "]"  << RESET << std::endl;
-        std::cout << BOLDGREEN << "[bytes allocated = " << bytesCount << "]" << RESET << std::endl;
-        
-        _allocatedMem = reinterpret_cast<pointer>(p);
-        return _allocatedMem;
+
+        return reinterpret_cast<pointer>(p);
     }
 
     void deallocate(pointer p, std::size_t n)
     {
-        std::cout << BOLDRED << __PRETTY_FUNCTION__ << "[n = " << n << "] [addr = " << p << "]" << RESET << std::endl;
-        std::cout << BOLDRED << "Constructerd count = " << _constructedCount << RESET << std::endl;
-        
-        if(_allocatedMem && !_constructedCount)
-        {
-            std::cout << BOLDRED << "DEALLOCATE MEMORY" << RESET << std::endl;
-            ::operator delete(_allocatedMem);
-        }
+        std::cout << BOLDRED << __PRETTY_FUNCTION__ << "[n = " << n << "] [addr = " << p << "]" << RESET_COLOR << std::endl;
+        ::operator delete(p);
     }
 
     template<typename U, typename ...Args>
     void construct(U* p, Args &&...args)
     {
-        std::cout << GREEN << __PRETTY_FUNCTION__ << " [addr = " << p << "]" << RESET << std::endl;
-        ++_constructedCount;
+        std::cout << GREEN << __PRETTY_FUNCTION__ << " [addr = " << p << "]" << RESET_COLOR << std::endl;
         new(p) U(std::forward<Args>(args)...);
     }
     
     template<typename U>
     void destroy(U* p)
     {
-        std::cout << RED << __PRETTY_FUNCTION__ <<  "[addr = " << p << "]" << RESET << std::endl;
-        --_constructedCount;
+        std::cout << RED << __PRETTY_FUNCTION__ <<  "[addr = " << p << "]" << RESET_COLOR << std::endl;
         p->~U();
     }
-    
-private:
-    pointer _allocatedMem { nullptr };
-    size_t _constructedCount{ 0 };
 };
