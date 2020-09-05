@@ -11,6 +11,7 @@ set_target_properties(versionLib PROPERTIES
 target_sources(
     versionLib
     PRIVATE versionLib.cpp
+    PRIVATE versionLib.h
     # PUBLIC ${CMAKE_CURRENT_LIST_DIR}/versionLib.h
     )
 

@@ -31,8 +31,9 @@ namespace Utils
     std::ostream& operator<<(std::ostream& os, const ipAddress& address);
     bool operator<(const ipAddress& lhs, const ipAddress& rhs);
     bool operator>(const ipAddress& lhs, const ipAddress& rhs);
+    bool operator==(const ipAddress& lhs, const ipAddress& rhs);
 
-    std::vector<ipAddress> ReadIpAdresses();
+    std::vector<ipAddress> ReadIpAdresses(std::istream& is);
     std::vector<ipAddress> FilterIpAddresses(const std::vector<ipAddress>& ipAddresses, const ipAddressMask& mask);
     std::vector<ipAddress> FilterIpAddressesAny(const std::vector<ipAddress>& ipAddresses, uchar filterVal);
 }

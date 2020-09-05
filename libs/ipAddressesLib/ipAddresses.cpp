@@ -87,12 +87,24 @@ namespace Utils
     {
         return rhs < lhs;
     }
+
+    bool operator==(const ipAddress& lhs, const ipAddress& rhs)
+    {
+        for(size_t idx = 0; idx < ipAddress::GetPartsCount(); ++idx)
+        {
+            if(lhs.GetPart(idx) != rhs.GetPart(idx))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
     
-    std::vector<ipAddress> ReadIpAdresses()
+    std::vector<ipAddress> ReadIpAdresses(std::istream& is)
     {
         std::vector<ipAddress> ipAddressPool;
 
-        for(std::string line; std::getline(std::cin, line);)
+        for(std::string line; std::getline(is, line);)
         {
             std::vector<std::string> lineParts = split(line, '\t');
             ipAddressPool.emplace_back(lineParts.at(0));

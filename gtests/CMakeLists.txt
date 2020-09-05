@@ -2,7 +2,7 @@ add_executable(gtest_version versionTest.cpp)
 
 message(STATUS "Running gtests CMakeLists..")
 
-set_target_properties(test_version PROPERTIES
+set_target_properties(gtest_version PROPERTIES
     CXX_STANDARD 17
     CXX_STANDARD_REQUIRED ON
 )
@@ -31,10 +31,24 @@ fetch_googletest(
     ${PROJECT_BINARY_DIR}/googletest
     )
 
+# target_include_directories(gtest_version
+# 	PRIVATE ${PROJECT_SOURCE_DIR}/data
+# )
+# add_subdirectory(${PROJECT_SOURCE_DIR}/data)
 
 target_link_libraries(gtest_version
+	gtest_main
     versionLib
-    gtest_main
+    ipAddressesLib
     )
 
+if (MSVC)
+    target_compile_options(gtest_version PRIVATE
+        /W4
+    )
+else ()
+    target_compile_options(gtest_version PRIVATE
+        -Wall -Wextra -pedantic -Werror
+    )
+endif()
 
