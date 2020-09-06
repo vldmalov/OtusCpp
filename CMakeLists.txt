@@ -12,10 +12,11 @@ project(ipFilter VERSION 0.0.${BUILD_VERSION})
 unset(BUILD_VERSION)
 
 message(STATUS "---------------------")
-message(STATUS "PROJECT_SOURCE_DIR:     ${PROJECT_SOURCE_DIR}")
-message(STATUS "PROJECT_BINARY_DIR:     ${PROJECT_BINARY_DIR}")
-message(STATUS "CMAKE_BINARY_DIR:       ${CMAKE_BINARY_DIR}")
-message(STATUS "CMAKE_CURRENT_LIST_DIR: ${CMAKE_CURRENT_LIST_DIR}")
+message(STATUS "PROJECT_SOURCE_DIR:       ${PROJECT_SOURCE_DIR}")
+message(STATUS "PROJECT_BINARY_DIR:       ${PROJECT_BINARY_DIR}")
+message(STATUS "CMAKE_BINARY_DIR:         ${CMAKE_BINARY_DIR}")
+message(STATUS "CMAKE_CURRENT_LIST_DIR:   ${CMAKE_CURRENT_LIST_DIR}")
+message(STATUS "CMAKE_CURRENT_SOURCE_DIR: ${CMAKE_CURRENT_SOURCE_DIR}")
 message(STATUS "---------------------")
 
 configure_file(version.h.in version.h)
@@ -24,7 +25,7 @@ add_subdirectory(libs/versionLib)
 add_subdirectory(libs/ipAddressesLib)
 add_subdirectory(src)
 add_subdirectory(tests)
-add_subdirectory(gtests)
+add_subdirectory(unitTests)
 
 set(CPACK_GENERATOR DEB)
 
@@ -43,6 +44,6 @@ add_test(
 	)
 
 add_test(
-	NAME gtest_version
-	COMMAND gtests/gtest_version
+	NAME unitTests
+	COMMAND unitTests/unitTests
 	)

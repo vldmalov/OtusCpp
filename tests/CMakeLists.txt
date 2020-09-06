@@ -1,6 +1,6 @@
-add_executable(test_version test_version.cpp)
-
 message(STATUS "Running tests CMakeLists..")
+
+add_executable(test_version test_version.cpp)
 
 set_target_properties(test_version PROPERTIES
     CXX_STANDARD 17
